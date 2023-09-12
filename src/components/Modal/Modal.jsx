@@ -1,5 +1,44 @@
-const Modal = ({ userDetails }) => {
-  console.log("userDetails", userDetails);
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+
+const Modal = ({ refetch, userDetails }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    const { name, university, address } = data;
+    const updateUser = {
+      name,
+      university,
+      address,
+    };
+
+    fetch(`http://localhost:5000/user/${userDetails?._id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updateUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          refetch();
+          reset();
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "your details have been updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
   return (
     <>
       <input type="checkbox" id="details-modal" className="modal-toggle" />
@@ -12,43 +51,65 @@ const Modal = ({ userDetails }) => {
             ✕
           </label>
           <h3 className="text-lg font-bold text-center">Update your Details</h3>
-          <form className="grid gap-2 grid-cols-1 mt-5">
-            <input
-              type="text"
-              name="name"
-              defaultValue={userDetails.name}
-              placeholder="Enter your name"
-              className="input input-bordered w-full "
-            />
-            <input
-              type="email"
-              name="email"
-              defaultValue={userDetails.email}
-              placeholder="Enter your email"
-              className="input input-bordered w-full "
-              required
-            />
-            <input
-              type="text"
-              name="university"
-              defaultValue={userDetails.university}
-              placeholder="Enter your university name"
-              className="input input-bordered w-full "
-            />
-            <input
-              type="text"
-              name="address"
-              defaultValue={userDetails.address}
-              placeholder="Enter your address"
-              className="input input-bordered w-full "
-              required
-            />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control w-full ">
+              <label className="label">
+                <span className="label-text">Name*</span>
+              </label>
+              <input
+                type="text"
+                defaultValue={userDetails.name}
+                {...register("name", { required: true })}
+                placeholder="Enter your name"
+                className="input input-bordered w-full "
+              />
+              {errors.name && <span> Name is required</span>}
+            </div>
 
-            <br />
+            <div className="form-control w-full ">
+              <label className="label">
+                <span className="label-text">Email*</span>
+              </label>
+              <input
+                type="email"
+                defaultValue={userDetails.email}
+                {...register("email")}
+                placeholder="Enter your email"
+                className="input input-bordered w-full "
+                disabled
+              />
+            </div>
+            <div className="form-control w-full ">
+              <label className="label">
+                <span className="label-text">University Name*</span>
+              </label>
+              <input
+                type="text"
+                defaultValue={userDetails.university}
+                {...register("university", { required: true })}
+                placeholder="Enter your university name"
+                className="input input-bordered w-full "
+              />
+              {errors.university && <span>University name is required</span>}
+            </div>
+            <div className="form-control w-full ">
+              <label className="label">
+                <span className="label-text">Address*</span>
+              </label>
+              <input
+                type="text"
+                defaultValue={userDetails.address}
+                {...register("address", { required: true })}
+                placeholder="type your address"
+                className="input input-bordered w-full "
+              />
+              {errors.address && <span>Address is required</span>}
+            </div>
+
             <input
-              className="btn btn-info w-full"
+              className="btn btn-success mt-2 w-full"
               type="submit"
-              value="Submit"
+              value="Update Details"
             />
           </form>
         </div>
