@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { BiSolidLike } from "react-icons/bi";
+import { Link } from "react-router-dom";
 const Media = () => {
   const { data: posts = [], refetch } = useQuery({
     queryKey: ["UsersPosts"],
@@ -55,7 +56,7 @@ const Media = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 mt-16">
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 my-12">
       {posts.map((post, index) => (
         <div
           key={post._id}
@@ -65,7 +66,20 @@ const Media = () => {
             <img src={post.image} alt="post" />
           </figure>
           <div className="card-body">
-            <p>{post.details}</p>
+            {post.details.length > 20 ? (
+              <p>
+                {post.details.slice(0, 20) + "..."}
+                <Link
+                  className="text-black text-lg"
+                  to={`/details/${post._id}`}
+                >
+                  Details
+                </Link>
+              </p>
+            ) : (
+              <p>{post.details}</p>
+            )}
+            {/* <Link to={`/details/${post._id}`}>Details</Link> */}
             <span>Likes: {post.totalLikes}</span>
             {likes[index] ? (
               <BiSolidLike
