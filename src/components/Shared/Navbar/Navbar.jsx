@@ -22,9 +22,13 @@ const Navbar = () => {
       {user ? (
         <>
           <li>
-            <NavLink to="/login">Logout</NavLink>
+            <NavLink to="/about">About</NavLink>
           </li>
           <li onClick={handleLogout}>
+            <NavLink to="/login">Logout</NavLink>
+          </li>
+
+          <li>
             <a href="">{user?.displayName}</a>
           </li>
         </>

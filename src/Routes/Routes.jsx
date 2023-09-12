@@ -5,6 +5,7 @@ import Media from "../components/Media/Media";
 import MediaDetails from "../components/Media/MediaDetails/MediaDetails";
 import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
+import About from "../components/About/About";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/about",
+        element: <About></About>,
       },
       {
         path: "/details/:id",
