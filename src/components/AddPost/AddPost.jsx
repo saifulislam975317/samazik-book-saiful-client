@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../ContextProvider/AuthProvider";
 import { useLocation, useNavigate } from "react-router-dom";
+import usePost from "../../hooks/usePost";
 
 const imageBB_api = import.meta.env.VITE_imageBB_api;
 const AddPost = () => {
   const { user } = useContext(AuthContext);
+  const [, refetch] = usePost();
   const navigate = useNavigate();
   const location = useLocation();
   const {
@@ -34,7 +36,7 @@ const AddPost = () => {
             details: data.details,
             image: imageURL,
           };
-          // new
+
           if (user && user.email) {
             fetch("http://localhost:5000/usersPost", {
               method: "POST",
@@ -46,6 +48,7 @@ const AddPost = () => {
               .then((res) => res.json())
               .then((data) => {
                 if (data.insertedId) {
+                  refetch();
                   reset();
                   Swal.fire({
                     position: "top-center",
@@ -76,19 +79,20 @@ const AddPost = () => {
       });
   };
   return (
-    <div className="w-full px-12">
-      <h1 className="text-center text-lg font-bold">Publish your post</h1>
+    <div className="w-full px-12 py-12">
+      <h1 className="text-center text-2xl font-bold">Publish your post</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">write your think*</span>
+            <span className="label-text text-2xl">write your think*</span>
           </label>
           <textarea
             className="textarea textarea-bordered resize-none h-24"
-            {...register("details")}
+            {...register("details", { required: true })}
             placeholder="What's on your mind?"
           ></textarea>
+          {errors.details && <span> This field is required</span>}
         </div>
         <div className="form-control w-full max-w-xs">
           <label className="label">
@@ -96,12 +100,16 @@ const AddPost = () => {
           </label>
           <input
             type="file"
-            {...register("image")}
+            {...register("image", { required: true })}
             className="file-input file-input-bordered w-full max-w-xs"
           />
           {errors.image && <span> Image is required</span>}
         </div>
-        <input className="btn btn-accent mt-2" type="submit" value="Post" />
+        <input
+          className="btn btn-info w-full max-w-xs mt-2"
+          type="submit"
+          value="Post"
+        />
       </form>
     </div>
   );

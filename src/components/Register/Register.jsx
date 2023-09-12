@@ -52,13 +52,13 @@ const Register = () => {
   };
   return (
     <div className="hero  ">
-      <div className="hero-content flex-col gap-24 p-4 my-4 lg:flex-row">
+      <div className="hero-content  flex-col gap-24 p-4 my-4 lg:flex-row">
         <div className="text-center lg:text-left">
           <img src={registerImg} alt="" />
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <div className="card flex-shrink-0 w-full  max-w-sm shadow-2xl bg-base-100">
           <h1 className="text-5xl font-bold text-center mt-4">Register Now!</h1>
-          <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+          <form onSubmit={handleSubmit(onSubmit)} className="card-body pb-0">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Your Name</span>
@@ -133,17 +133,16 @@ const Register = () => {
                 <span className="text-red-500">{errors.password.message}</span>
               )}
             </div>
-            <div className="form-control mt-6">
+            <div className="form-control mt-2">
               <input className="btn btn-info" type="submit" value="register" />
             </div>
           </form>
-          <p className="text-center">
+          <p className="mb-8 text-center">
             Already have an account?
             <Link className="text-green-500 ml-2" to="/login">
               Login
             </Link>
           </p>
-          <div className="divider">OR</div>
         </div>
       </div>
     </div>

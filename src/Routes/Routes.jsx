@@ -6,6 +6,7 @@ import MediaDetails from "../components/Media/MediaDetails/MediaDetails";
 import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
 import About from "../components/About/About";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
         element: <MediaDetails></MediaDetails>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/postDetails/${params.id}`),
+      },
+      {
+        path: "*",
+        element: <PageNotFound></PageNotFound>,
       },
     ],
   },

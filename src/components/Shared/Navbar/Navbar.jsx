@@ -16,9 +16,6 @@ const Navbar = () => {
         <NavLink to="/media">Media</NavLink>
       </li>
 
-      <li>
-        <NavLink to="/message">Message</NavLink>
-      </li>
       {user ? (
         <>
           <li>

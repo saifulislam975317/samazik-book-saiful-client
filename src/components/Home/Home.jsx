@@ -1,4 +1,5 @@
 import AddPost from "../AddPost/AddPost";
+import Media from "../Media/Media";
 import Banner from "./Banner/Banner";
 
 const Home = () => {
@@ -6,6 +7,7 @@ const Home = () => {
     <div>
       <Banner></Banner>
       <AddPost></AddPost>
+      <Media></Media>
     </div>
   );
 };
