@@ -79,7 +79,7 @@ const AddPost = () => {
       });
   };
   return (
-    <div className="w-full px-12 py-12">
+    <div className="w-full px-12 py-12 border-2 ">
       <h1 className="text-center text-2xl font-bold">Publish your post</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>

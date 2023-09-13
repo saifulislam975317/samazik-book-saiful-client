@@ -1,13 +1,13 @@
 import AddPost from "../AddPost/AddPost";
 import Media from "../Media/Media";
-import Banner from "./Banner/Banner";
+import SelectItems from "../SelectItems/SelectItems";
 
 const Home = () => {
   return (
     <div>
-      <Banner></Banner>
       <AddPost></AddPost>
       <Media></Media>
+      <SelectItems></SelectItems>
     </div>
   );
 };

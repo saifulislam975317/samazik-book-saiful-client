@@ -7,6 +7,8 @@ import Register from "../components/Register/Register";
 import Login from "../components/Login/Login";
 import About from "../components/About/About";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import SelectItems from "../components/SelectItems/SelectItems";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,15 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About></About>,
+      },
+      {
+        path: "/selected",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <SelectItems></SelectItems>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/details/:id",
