@@ -15,14 +15,14 @@ const Navbar = () => {
       <li>
         <NavLink to="/media">Media</NavLink>
       </li>
-      <li>
-        <NavLink to="/selected">Selected</NavLink>
-      </li>
 
       {user ? (
         <>
           <li>
             <NavLink to="/about">About</NavLink>
+          </li>
+          <li>
+            <NavLink to="/selected">Selected</NavLink>
           </li>
           <li onClick={handleLogout}>
             <NavLink to="/login">Logout</NavLink>

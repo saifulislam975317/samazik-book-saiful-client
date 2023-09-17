@@ -12,6 +12,7 @@ const Media = () => {
   const [likedPosts, setLikedPosts] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [commentTexts, setCommentTexts] = useState({});
 
   const handleLike = async (id) => {
     try {
@@ -108,6 +109,54 @@ const Media = () => {
     }
   };
 
+  const handleComment = async (postId) => {
+    try {
+      // Get the comment text for the specific post
+      const commentText = commentTexts[postId] || "";
+
+      if (!commentText.trim()) {
+        // Don't send empty comments
+        return;
+      }
+
+      // Send the comment to the server
+      const response = await fetch(`http://localhost:5000/comment/${postId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: commentText }),
+      });
+
+      if (response.ok) {
+        // Update the UI by adding the comment to the post
+        const updatedPosts = posts.map((post) => {
+          if (post._id === postId) {
+            return {
+              ...post,
+              comments: [...(post.comments || []), commentText],
+            };
+          }
+          return post;
+        });
+
+        setPosts(updatedPosts);
+
+        // Clear the comment text for the specific post
+        setCommentTexts((prevCommentTexts) => ({
+          ...prevCommentTexts,
+          [postId]: "",
+        }));
+
+        console.log("Comment added successfully");
+      } else {
+        console.error("Failed to add comment");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-center mt-4"> News Feed</h1>
@@ -148,14 +197,36 @@ const Media = () => {
                     likedPosts.includes(post._id) ? "text-blue-400" : ""
                   }`}
                 ></BiSolidLike>
+
+                <input
+                  className="border w-[150px] input input-sm input-bordered"
+                  type="text"
+                  placeholder="Add a comment"
+                  value={commentTexts[post._id] || ""}
+                  onChange={(e) =>
+                    setCommentTexts({
+                      ...commentTexts,
+                      [post._id]: e.target.value,
+                    })
+                  }
+                />
+
+                <button
+                  type="submit"
+                  onClick={() => handleComment(post._id)}
+                  className="btn btn-sm "
+                >
+                  send
+                </button>
+
                 <button
                   onClick={() => handleSelect(post)}
                   className="btn btn-sm btn-neutral"
                 >
-                  {" "}
                   select
                 </button>
               </div>
+              <p className="ml-24">{post.totalComments}</p>
             </div>
           </div>
         ))}
@@ -165,34 +236,3 @@ const Media = () => {
 };
 
 export default Media;
-
-/*
-
-const [likedPosts, setLikedPosts] = useState([]);
-  const [likesCount, setLikesCount] = useState({});
-
-  const handleLike = (id) => {
-    // Step 2: Toggle like for the post with the given id
-    if (likedPosts.includes(id)) {
-      // Unlike the post
-      const newLikedPosts = likedPosts.filter((postId) => postId !== id);
-      setLikedPosts(newLikedPosts);
-
-      // Update the like count for the post
-      setLikesCount((prevLikesCount) => ({
-        ...prevLikesCount,
-        [id]: (prevLikesCount[id] || 0) - 1,
-      }));
-    } else {
-      // Like the post
-      const newLikedPosts = [...likedPosts, id];
-      setLikedPosts(newLikedPosts);
-
-      // Update the like count for the post
-      setLikesCount((prevLikesCount) => ({
-        ...prevLikesCount,
-        [id]: (prevLikesCount[id] || 0) + 1,
-      }));
-    }
-  };
-*/

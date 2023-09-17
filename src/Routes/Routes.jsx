@@ -8,7 +8,6 @@ import Login from "../components/Login/Login";
 import About from "../components/About/About";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import SelectItems from "../components/SelectItems/SelectItems";
-import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -37,12 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/selected",
-        element: (
-          <PrivateRoute>
-            {" "}
-            <SelectItems></SelectItems>
-          </PrivateRoute>
-        ),
+        element: <SelectItems></SelectItems>,
       },
       {
         path: "/details/:id",

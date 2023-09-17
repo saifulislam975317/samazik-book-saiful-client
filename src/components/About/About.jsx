@@ -16,25 +16,28 @@ const About = () => {
   });
 
   return (
-    <div className="card w-96 mx-auto bg-base-100 shadow-xl my-12">
-      <Modal refetch={refetch} userDetails={userDetails}></Modal>
-      <div className="card-body ">
-        <div className="card-actions justify-end">
-          <label
-            onClick={() => setUserDetails(userInfo)}
-            htmlFor="details-modal"
-            className="btn bg-slate-600 text-white"
-          >
-            Edit
-          </label>
+    <div>
+      <h1 className="text-2xl font-bold text-center mt-4">
+        About of {user?.name || user?.displayName}
+      </h1>
+      <div className="card w-96 mx-auto bg-base-100 shadow-xl my-8">
+        <Modal refetch={refetch} userDetails={userDetails}></Modal>
+        <div className="card-body ">
+          <div className="card-actions justify-end">
+            <label
+              onClick={() => setUserDetails(userInfo)}
+              htmlFor="details-modal"
+              className="btn bg-slate-600 text-white"
+            >
+              Edit
+            </label>
+          </div>
+
+          <h1 className="text-lg ">Name: {userInfo.name}</h1>
+          <h2>Email: {userInfo.email}</h2>
+          <h3>University: {userInfo?.university}</h3>
+          <p>Address: {userInfo?.address}</p>
         </div>
-        <div>
-          <h1 className="text-2xl font-bold underline">User details:</h1>
-        </div>
-        <h1 className="text-lg ">Name: {userInfo.name}</h1>
-        <h2>Email: {userInfo.email}</h2>
-        <h3>University: {userInfo?.university}</h3>
-        <p>Address: {userInfo?.address}</p>
       </div>
     </div>
   );
